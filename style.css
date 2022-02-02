@@ -409,8 +409,18 @@ header .follow a:hover {
     font-size: 2rem;
     padding:2.5rem;
     text-align: center;
-    color:#666;
     background: #fff;
+}
+
+.footer p {
+	font-size: 2rem;
+	color: var(--main-color);
+}
+
+.footer a {
+	text-decoration: none;
+	color: var(--main-color);
+	font-size: 2rem;
 }
 
 
