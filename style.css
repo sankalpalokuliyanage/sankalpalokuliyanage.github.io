@@ -423,6 +423,10 @@ header .follow a:hover {
 	font-size: 2rem;
 }
 
+.footer a:hover {
+	font-weight: bold;
+}
+
 
 
 
