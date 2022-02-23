@@ -11,7 +11,5 @@ window.onscroll = () => {
 	header.classList.remove('active');
 }
 
-// Initiate the wowjs
-    new WOW().init();
 
-    
+
