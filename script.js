@@ -10,3 +10,8 @@ window.onscroll = () => {
 	menu.classList.remove('fa-times');
 	header.classList.remove('active');
 }
+
+// Initiate the wowjs
+    new WOW().init();
+
+    
