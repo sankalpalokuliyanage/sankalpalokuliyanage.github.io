@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time To Korean 한국 시간</title>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    #flashcard {
+      bbackground-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+      text-align: center;
+      font-size: 30px;
+      width: 80%;
+    }
+    
+    
+    #flashcard h2 {
+      color: #007BFF;
+    }
+
+    #flashcardContainer {
+      width: 100%;
+      height: 200px;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+    }
+
+    #flashcardFront,
+    #flashcardBack {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    #flashcardFront {
+      background-color: #007BFF;
+      color: #fff;
+    }
+
+    #flashcardBack {
+      background-color: #fff;
+      color: #333;
+      transform: rotateY(180deg);
+    }
+    
+        #flashcardContainer.flipped {
+      transform: rotateY(180deg);
+    }
+
+
+    #lessonDropdown {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding: 8px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    #notification {
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 16px;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: none;
+    }
+    
+    .nav-button {
+      margin-top: 10px;
+    }
+    
+    footer {
+      margin-top: 20px;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      #flashcard {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+ <header>
+    <img src="logo.png" alt="Logo" style="width: 500px;"> <!-- Adjust dimensions as needed -->
+  </header>
+  
+  <div id="flashcard">
+    <h2>한국 시간</h2>
+    <select id="lessonDropdown" onchange="selectLesson()">
+      <!-- Lesson options will be dynamically added here -->
+    </select>
+
+    <div id="flashcardContainer" onclick="flipCard()">
+      <div id="flashcardFront">
+        <p id="flashcardEnglish"></p>
+      </div>
+      <div id="flashcardBack">
+        <p id="flashcardKorean"></p>
+      </div>
+    </div>
+		
+	
+    <button onclick="nextFlashcard()">Next</button>
+    <button class="nav-button" onclick="previousFlashcard()">Previous</button>
+  </div>
+  
+  <footer>© <a style="color: #000; text-decoration: none; color: blue;" href="https://sankalpalokuliyanage.github.io/">Sankalpa Lokuliyanage</a></footer>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyCAz8iCfA0y3cN_JL2rG913M2IgQ2CSVEE",
+      authDomain: "learnkorean-f7aa1.firebaseapp.com",
+      databaseURL: "https://learnkorean-f7aa1-default-rtdb.firebaseio.com",
+      projectId: "learnkorean-f7aa1",
+      storageBucket: "learnkorean-f7aa1.appspot.com",
+      messagingSenderId: "968443476602",
+      appId: "1:968443476602:web:66c775eb3d988a3d5299c3"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    var database = firebase.database();
+
+    firebase.auth().signInWithEmailAndPassword("test@gmail.com", "123456789")
+      .then(function (userCredential) {
+        var user = userCredential.user;
+        console.log("User authenticated:", user);
+
+        var flashcardIndex = 0;
+        var flashcards = [];
+
+        function retrieveLessons() {
+          var lessonDropdown = document.getElementById('lessonDropdown');
+          var lessonsRef = database.ref('lessons');
+
+          lessonsRef.orderByChild('lessonName').on('child_added', function (lessonSnapshot) {
+            var lesson = lessonSnapshot.val();
+            var option = document.createElement('option');
+            option.value = lessonSnapshot.key;
+            option.textContent = lesson.lessonName;
+            lessonDropdown.appendChild(option);
+          });
+
+          lessonDropdown.addEventListener('change', function () {
+            var selectedLessonKey = lessonDropdown.value;
+            retrieveFlashcards(selectedLessonKey);
+          });
+        }
+
+        function retrieveFlashcards(lessonKey) {
+          var flashcardEnglish = document.getElementById('flashcardEnglish');
+          var flashcardKorean = document.getElementById('flashcardKorean');
+
+          flashcardEnglish.textContent = "";
+          flashcardKorean.textContent = "";
+
+          var flashcardsRef = database.ref('lessons/' + lessonKey + '/words');
+
+          flashcardsRef.on('child_added', function (flashcardSnapshot) {
+            var flashcard = flashcardSnapshot.val();
+            flashcards.push(flashcard);
+            displayFlashcard();
+          });
+        }
+
+        function displayFlashcard() {
+          var flashcardEnglish = document.getElementById('flashcardEnglish');
+          var flashcardKorean = document.getElementById('flashcardKorean');
+
+          if (flashcards.length > 0 && flashcardIndex >= 0 && flashcardIndex < flashcards.length) {
+            var currentFlashcard = flashcards[flashcardIndex];
+            flashcardEnglish.textContent = currentFlashcard.english;
+            flashcardKorean.textContent = currentFlashcard.korean;
+          } else {
+            flashcardEnglish.textContent = "No flashcards available for the selected lesson.";
+            flashcardKorean.textContent = "";
+          }
+        }
+
+        window.nextFlashcard = function () {
+          flashcardIndex++;
+          if (flashcardIndex >= flashcards.length) {
+            flashcardIndex = 0;
+          }
+          displayFlashcard();
+          flipToEnglish();
+        };
+        
+        window.previousFlashcard = function () {
+      flashcardIndex--;
+      if (flashcardIndex < 0) {
+        flashcardIndex = flashcards.length - 1;
+      }
+      displayFlashcard();
+      flipToEnglish();
+    };
+
+        window.selectLesson = function () {
+          var selectedLessonKey = document.getElementById('lessonDropdown').value;
+          flashcardIndex = 0;
+          flashcards = [];
+          retrieveFlashcards(selectedLessonKey);
+        };
+
+        window.flipCard = function () {
+          var flashcardContainer = document.getElementById('flashcardContainer');
+          if (flashcardContainer.style.transform === "rotateY(180deg)") {
+            flipToEnglish();
+          } else {
+            flipToKorean();
+          }
+        };
+
+        function flipToEnglish() {
+          var flashcardContainer = document.getElementById('flashcardContainer');
+          flashcardContainer.style.transform = "rotateY(0deg)";
+        }
+
+        function flipToKorean() {
+          var flashcardContainer = document.getElementById('flashcardContainer');
+          flashcardContainer.style.transform = "rotateY(180deg)";
+        }
+
+        retrieveLessons();
+      })
+      .catch(function (error) {
+        console.error("Authentication error:", error.code, error.message);
+      });
+  </script>
+</body>
+
+</html>
