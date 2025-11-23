@@ -1,467 +1,1057 @@
-To make your profile more attractive, we need to leverage the advanced CSS you provided earlier (specifically the Hexagon classes which were unused in your HTML) and add some modern UI trends like Glassmorphism (frosted glass effect), a Typewriter effect, and a cleaner layout.
-Here is the upgraded HTML file. I have added a custom <style> block in the head to polish the existing CSS, and I replaced the standard "Services" boxes with the cool Hexagon Grid defined in your stylesheet.
-Key Improvements:
- * Modern Hero Section: Added a "Typewriter" animation for your roles.
- * Hexagon Services: Implemented the Hexagon CSS classes to make the Services section look high-tech and unique.
- * Glassmorphism: Added a frosted glass look to the sidebar and cards for a premium feel.
- * Profile Image Glow: Added a soft animated glow to your profile picture.
-Updated index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sankalpa Lokuliyanage | Portfolio</title>
+    <title>Sankalpa Lokuliyanage | Software & Security</title>
     <link rel="icon" href="img.png">
     
-    <link rel="stylesheet" type="text/css" href="style.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- MODERN OVERRIDES & ENHANCEMENTS --- */
-        
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --text-glow: 0 0 10px rgba(1, 181, 156, 0.7);
+            --bg-color: #0a192f;
+            --bg-light: #112240;
+            --text-primary: #ccd6f6;
+            --text-secondary: #8892b0;
+            --accent: #64ffda; /* Teal/Cyan */
+            --glass: rgba(17, 34, 64, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            outline: none;
+            border: none;
+        }
+
+        html {
+            font-size: 62.5%; /* 1rem = 10px */
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Poppins', sans-serif; /* Cleaner modern font */
-            background: linear-gradient(135deg, #0e204e 0%, #01b59c 100%); /* Gradient background */
-            background-attachment: fixed;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Glassmorphism Sidebar */
-        header {
-            background: rgba(14, 32, 78, 0.95);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid var(--glass-border);
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
         }
-
-        /* Profile Image styling */
-        .home .image img {
-            border-radius: 50%;
-            border: 5px solid #01b59c;
-            box-shadow: 0 0 20px rgba(1, 181, 156, 0.6);
-            transition: transform 0.5s ease;
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
         }
-        .home .image img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(1, 181, 156, 0.9);
-        }
-
-        /* Typewriter Cursor */
-        .typing-text {
-            color: #01b59c;
-            border-right: 2px solid #fff;
-            white-space: nowrap;
-            overflow: hidden;
-            animation: blink 0.7s step-end infinite;
-        }
-        @keyframes blink { 50% { border-color: transparent; } }
-
-        /* Card Enhancements */
-        .box, .icons, .timeline-text {
-            background: rgba(255, 255, 255, 0.95) !important;
-            border-radius: 15px !important;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
-            transition: transform 0.3s ease !important;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .box:hover, .icons:hover {
-            transform: translateY(-10px);
-        }
-
-        /* Section Headings */
-        .heading span {
-            color: #0e204e;
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.3);
-            background: #fff;
-            padding: 0 10px;
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-light);
             border-radius: 5px;
         }
-
-        /* Skill Bars */
-        .about .row-2 .skills .progress .bar {
-            background: rgba(255,255,255,0.3);
-            border: 1px solid rgba(255,255,255,0.5);
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
         }
 
-        /* Hexagon Container Centering */
-        .hexagon-container {
+        /* Canvas Background */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* =========================================
+           2. TYPOGRAPHY & UTILITIES
+           ========================================= */
+        h1, h2, h3, h4 {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .heading {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .heading::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .heading span {
+            color: var(--accent);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            background: transparent;
+            font-size: 1.6rem;
+            font-family: 'Fira Code', monospace;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: var(--transition);
+            margin-top: 1rem;
+            margin-right: 1rem;
+        }
+
+        .btn:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.2);
+        }
+
+        section {
+            padding: 8rem 9%;
+            min-height: 100vh;
+        }
+
+        /* =========================================
+           3. HEADER & NAVIGATION
+           ========================================= */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 9%;
+            background: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .logo span {
+            color: var(--text-primary);
+        }
+
+        .navbar a {
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-left: 3rem;
+            font-family: 'Fira Code', monospace;
+            transition: var(--transition);
+        }
+
+        .navbar a:hover, .navbar a.active {
+            color: var(--accent);
+        }
+
+        #menu-bars {
+            font-size: 2.5rem;
+            color: var(--accent);
+            cursor: pointer;
+            display: none;
+        }
+
+        /* =========================================
+           4. HOME SECTION
+           ========================================= */
+        .home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4rem;
+            padding-top: 12rem;
+        }
+
+        .home .content {
+            flex: 1;
+        }
+
+        .home .content .hi {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent);
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .home .content h3 {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .home .content h3 span {
+            color: var(--text-secondary);
+        }
+
+        .home .content .info {
+            font-size: 2.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            height: 3rem; /* Prevent layout shift */
+        }
+
+        .home .content .text {
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .home .image {
+            flex: 0 0 350px;
+            position: relative;
+        }
+
+        .home .image img {
+            width: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+            transition: var(--transition);
+            filter: grayscale(100%);
+        }
+
+        .home .image:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.02);
+        }
+
+        /* =========================================
+           5. ABOUT SECTION
+           ========================================= */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-img-wrapper {
+            position: relative;
+        }
+
+        .about-img-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent);
+            border-radius: 5px;
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        .about-img-wrapper:hover::after {
+            top: 10px;
+            left: 10px;
+        }
+
+        .about-img-wrapper img {
+            width: 100%;
+            border-radius: 5px;
+            filter: grayscale(100%) contrast(1.2);
+            transition: var(--transition);
+        }
+
+        .about-img-wrapper:hover img {
+            filter: none;
+        }
+
+        .about-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .about-text p {
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+        }
+
+        .info-item i {
+            color: var(--accent);
+            margin-right: 1rem;
+        }
+
+        /* Skills Bars */
+        .skills-section {
+            margin-top: 3rem;
+        }
+        .skill-bar {
+            margin-bottom: 1.5rem;
+        }
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .skill-info h4 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+        .skill-info span {
+            font-size: 1.4rem;
+            color: var(--accent);
+            font-family: 'Fira Code', monospace;
+        }
+        .bar-bg {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+            width: 0; /* JS will animate */
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* =========================================
+           6. ACADEMIC (TIMELINE)
+           ========================================= */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: var(--bg-light);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0; /* Hidden for animation */
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .timeline-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item.left {
+            left: 0;
+        }
+
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        /* Dot on line */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            right: -8px;
+            top: 20px;
+            background: var(--bg-color);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .timeline-item.right::after {
+            left: -8px;
+        }
+
+        .timeline-content {
+            padding: 2rem;
+            background: var(--bg-light);
+            border-radius: 6px;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .timeline-date {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .timeline-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content h4 {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* =========================================
+           7. SERVICES (HEXAGONS)
+           ========================================= */
+        .hexagon-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .hex-container {
+            width: 200px;
+            height: 220px;
+            position: relative;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            padding-bottom: 50px;
+            align-items: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .hex-container:hover {
+            transform: scale(1.1);
+        }
+
+        .hex-shape {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            fill: var(--bg-light);
+            stroke: var(--text-secondary);
+            stroke-width: 1;
+            transition: var(--transition);
+        }
+
+        .hex-container:hover .hex-shape {
+            fill: rgba(100, 255, 218, 0.1);
+            stroke: var(--accent);
+            stroke-width: 2;
+            filter: drop-shadow(0 0 8px var(--accent));
+        }
+
+        .hex-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .hex-content i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .hex-content h3 {
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* =========================================
+           8. CONTACT
+           ========================================= */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            background: var(--bg-light);
+            padding: 4rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+        }
+
+        .contact-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-right: 1.5rem;
+        }
+
+        .contact-item p {
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+        }
+
+        .social-links {
+            margin-top: 3rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            margin-right: 2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* =========================================
+           9. FOOTER
+           ========================================= */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            font-family: 'Fira Code', monospace;
         }
         
-        /* Footer Polish */
-        .footer {
-            background: transparent;
-            color: white;
+        footer a {
+            color: var(--accent);
         }
-        .footer p, .footer a {
-            color: white !important;
-            font-size: 1.5rem;
+
+        /* =========================================
+           RESPONSIVE MEDIA QUERIES
+           ========================================= */
+        @media (max-width: 991px) {
+            html { font-size: 55%; }
+            header { padding: 2rem; }
+            section { padding: 8rem 4rem; }
+            .home .image { flex: 0 0 300px; }
         }
-        
-        /* Timeline connectors */
-        .academic .timeline .timeline-item::after {
-            background: #01b59c;
-            border-color: #fff;
-            box-shadow: 0 0 10px #01b59c;
+
+        @media (max-width: 768px) {
+            #menu-bars { display: block; }
+            
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-light);
+                border-top: 1px solid var(--glass-border);
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: 0.3s ease-in-out;
+            }
+
+            .navbar.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+
+            .navbar a {
+                display: block;
+                padding: 1.5rem;
+                margin: 0;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+            }
+
+            .home {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            
+            .home .image { width: 70%; }
+            
+            .about-content { grid-template-columns: 1fr; }
+            
+            .timeline::after { left: 31px; }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item.right { left: 0; }
+            
+            .timeline-item::after { left: 23px; }
+            .timeline-item.right::after { left: 23px; }
+
+            .contact-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="menu-bars" class="fas fa-bars"></div>
+    <!-- Background Canvas Animation -->
+    <canvas id="canvas-bg"></canvas>
 
+    <!-- Navigation -->
     <header>
-        <a href="#" class="logo"><span>Sankalpa</span> L.</a>
+        <a href="#" class="logo">Sankalpa<span>.</span></a>
+        <div id="menu-bars" class="fas fa-bars"></div>
         <nav class="navbar">
-            <a href="#home"><i class="fas fa-home"></i> Home</a>
-            <a href="#about"><i class="fas fa-user"></i> About</a>
-            <a href="#academic"><i class="fas fa-graduation-cap"></i> Academic</a>
-            <a href="#service"><i class="fas fa-cogs"></i> Services</a>
-            <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#academic">Journey</a>
+            <a href="#service">Expertise</a>
+            <a href="#contact">Contact</a>
         </nav>
-        <div class="follow">
-            <a href="https://www.facebook.com/sankalpa.lokuliyanage/" class="fab fa-facebook-f"></a>
-            <a href="https://twitter.com/sankalpa_lc" class="fab fa-twitter"></a>
-            <a href="https://www.instagram.com/sankalpa_lokuliyanage/" class="fab fa-instagram"></a>
-            <a href="https://www.linkedin.com/in/sankalpa-lokuliyanage-b45662193/?" class="fab fa-linkedin"></a>
-            <a href="https://github.com/sankalpalokuliyanage" class="fab fa-github"></a>
-        </div>
     </header>
 
+    <!-- Home Section -->
     <section class="home" id="home">
-        <div class="content" data-aos="fade-right">
-            <span class="hi">Hello, I'm</span>
-            <h3>Sankalpa <span>Lokuliyanage</span></h3>
-            <p class="info">I am a <span class="typing-text" id="typewriter"></span></p>
-            
+        <div class="content fade-in">
+            <span class="hi">Hi, my name is</span>
+            <h3>Sankalpa <br> <span>Lokuliyanage</span></h3>
+            <p class="info">I build <span id="typewriter"></span></p>
             <p class="text">
-                Computer Science Graduate (UK) | Cyber Security Specialist (Singapore) | Master's Candidate in Software Engineering (South Korea).
-                <br><br>
-                Specializing in full-stack development, AI/ML research, and secure system architecture. Bridging the gap between complex code and business solutions.
+                A High-Distinction Computer Science Graduate & Cybersecurity Specialist. 
+                Currently researching Software Engineering & Emerging Tech at Kyungpook National University, South Korea.
+                I bridge the gap between complex algorithms and secure, user-friendly applications.
             </p>
-            <a href="#about" class="btn">View Profile <i class="fas fa-arrow-right"></i></a>
+            <a href="#contact" class="btn">Get In Touch</a>
+            <a href="https://scholar.google.com/citations?user=I83lgIQAAAAJ&hl=en" class="btn">Google Scholar</a>
         </div>
-
-        <div class="image" data-aos="fade-left">
-            <img src="img.png" alt="Sankalpa Profile"> 
+        <div class="image fade-in">
+            <img src="img.png" alt="Sankalpa Lokuliyanage">
         </div>
     </section>
 
+    <!-- About Section -->
     <section class="about" id="about">
-        <h1 class="heading" data-aos="zoom-in"> About <span>Me</span> </h1>
-
-        <div class="row-1">
-            <div class="image" data-aos="flip-left">
-                <img src="aboutimg.jpg" alt="About Sankalpa">
+        <h2 class="heading">About <span>Me</span></h2>
+        
+        <div class="about-content fade-in">
+            <div class="about-img-wrapper">
+                <img src="aboutimg.jpg" alt="About Me">
             </div>
-
-            <div class="content" data-aos="fade-up">
-                <h3>Global Tech Professional</h3>
-                <p>First Class Honors Graduate (UK) & Class Topper (Singapore)</p>
+            
+            <div class="about-text">
+                <h3>Engineering Secure Solutions</h3>
+                <p>
+                    With a First Class Honors degree from the UK and a Postgraduate Diploma in Cybersecurity from Singapore (Class Topper), 
+                    I possess a rigorous academic foundation paired with practical expertise. My current research focuses on AI-driven software engineering.
+                </p>
                 
-                <div class="box-container">
-                    <div class="box">
-                        <p><span>Age :</span> 25 Years</p>
-                        <p><span>Gender :</span> Male</p>
-                        <p><span>Language :</span> English, Korean (Topik 3), Sinhala</p>
+                <div class="info-grid">
+                    <div class="info-item"><i class="fas fa-code"></i> Full Stack Dev</div>
+                    <div class="info-item"><i class="fas fa-shield-alt"></i> Cyber Security</div>
+                    <div class="info-item"><i class="fas fa-language"></i> English, Korean (Topik 3)</div>
+                    <div class="info-item"><i class="fas fa-map-marker-alt"></i> Daegu, South Korea</div>
+                </div>
+
+                <div class="skills-section">
+                    <div class="skill-bar">
+                        <div class="skill-info"><h4>Java & Python</h4> <span>95%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0;" data-width="95%"></div></div>
                     </div>
-                    <div class="box">
-                        <p><span>Email :</span> sanka.sankalpa1998@gmail.com</p>
-                        <p><span>Location :</span> Daegu, South Korea</p>
-                        <p><span>Status :</span> Available for Hire</p>
+                    <div class="skill-bar">
+                        <div class="skill-info"><h4>Web Dev (React/Django)</h4> <span>90%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0;" data-width="90%"></div></div>
                     </div>
-                </div>
-
-                <div style="margin-top: 2rem;">
-                    <a href="https://scholar.google.com/citations?user=I83lgIQAAAAJ&hl=en" class="btn"><i class="fas fa-graduation-cap"></i> G-Scholar</a>
-                    <a href="https://www.credly.com/users/lokuliyanage-chamod-sankalpa-lokuliyanage/badges" class="btn"><i class="fas fa-certificate"></i> Badges</a>
-                    <a href="https://wa.me/+821048320845" class="btn"><i class="fab fa-whatsapp"></i> Chat Now</a>
-                </div>
-            </div>
-        </div>
-
-        <h1 class="heading" data-aos="zoom-in" style="margin-top: 3rem;"> <span>Technical</span> Stack </h1>
-
-        <div class="row-2">
-            <div class="skills">
-                <div class="progress">
-                    <h3>Full Stack Dev (Java, PHP, Python) <span> 95% </span></h3>
-                    <div class="bar"><span style="width: 95%"></span></div>
-                </div>
-                <div class="progress">
-                    <h3>Web Technologies (React, Django) <span> 90% </span></h3>
-                    <div class="bar"><span style="width: 90%"></span></div>
-                </div>
-                <div class="progress">
-                    <h3>Cyber Security <span> 85% </span></h3>
-                    <div class="bar"><span style="width: 85%"></span></div>
-                </div>
-                <div class="progress">
-                    <h3>AI / Machine Learning <span> 80% </span></h3>
-                    <div class="bar"><span style="width: 80%"></span></div>
+                    <div class="skill-bar">
+                        <div class="skill-info"><h4>Cybersecurity & NetSec</h4> <span>85%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0;" data-width="85%"></div></div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="academic" id="academic">
-        <h1 class="heading" data-aos="fade-down">Academic <span>Journey</span></h1>
+    <!-- Academic/Experience Timeline -->
+    <section id="academic">
+        <h2 class="heading">Where I've <span>Been</span></h2>
         
         <div class="timeline">
-            <div class="timeline-item left" data-aos="slide-right">
-                <div class="timeline-text">
-                    <div class="timeline-date">2024 - Present</div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="timeline-date">2024 - Present</span>
                     <h2>MSc in Software</h2>
                     <h4>Kyungpook National University, South Korea</h4>
-                    <p>Researching Software Engineering & Emerging Tech.</p>
+                    <p>Specializing in Software Engineering research and advanced algorithms.</p>
                 </div>
             </div>
 
-            <div class="timeline-item right" data-aos="slide-left">
-                <div class="timeline-text">
-                    <div class="timeline-date">2022 - 2023</div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <span class="timeline-date">2022 - 2023</span>
                     <h2>PGD in Cyber Security</h2>
-                    <h4>LSBF, Singapore</h4>
-                    <p><b>Class Topper</b>. Focus on Network Defense & Cryptography.</p>
+                    <h4>London School of Business & Finance, Singapore</h4>
+                    <p><b>Class Topper.</b> Focused on Cryptography, Network Defense, and Ethical Hacking.</p>
                 </div>
             </div>
-            
-            <div class="timeline-item left" data-aos="slide-right">
-                <div class="timeline-text">
-                    <div class="timeline-date">2018 - 2021</div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="timeline-date">2018 - 2021</span>
                     <h2>BSc (Hons) Computer Science</h2>
                     <h4>University of Wolverhampton, UK</h4>
-                    <p><b>First Class Honours</b>. Specialized in Software Engineering.</p>
+                    <p><b>First Class Honours.</b> Major in Software Engineering and System Architecture.</p>
                 </div>
             </div>
             
-            <div class="timeline-item right" data-aos="slide-left">
-                <div class="timeline-text">
-                    <div class="timeline-date">2017</div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <span class="timeline-date">2017</span>
                     <h2>Collegiate Education</h2>
                     <h4>St. Joseph’s College, Colombo</h4>
-                    <p>G.C.E Advanced Level & Ordinary Level.</p>
+                    <p>G.C.E Advanced Level - Physical Science Stream.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="service" id="service">
-        <h1 class="heading" data-aos="zoom-in"> My <span>Expertise</span> </h1>
+    <!-- Services Hexagon Grid -->
+    <section id="service">
+        <h2 class="heading">My <span>Arsenal</span></h2>
         
-        <div class="hexagon-container">
-            
-            <div class="hexagon-item">
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
+        <div class="hexagon-grid fade-in">
+            <!-- Hex 1 -->
+            <div class="hex-container">
+                <svg class="hex-shape" viewBox="0 0 100 115" preserveAspectRatio="none">
+                    <path d="M50 0 L100 28 L100 87 L50 115 L0 87 L0 28 Z" />
+                </svg>
+                <div class="hex-content">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Web Dev</h3>
                 </div>
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <a class="hex-content">
-                    <span class="hex-content-inner">
-                        <span class="icon"><i class="fas fa-code"></i></span>
-                        <span class="title">Web Dev</span>
-                    </span>
-                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
-                </a>
             </div>
-
-            <div class="hexagon-item">
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
+            <!-- Hex 2 -->
+            <div class="hex-container">
+                <svg class="hex-shape" viewBox="0 0 100 115" preserveAspectRatio="none">
+                    <path d="M50 0 L100 28 L100 87 L50 115 L0 87 L0 28 Z" />
+                </svg>
+                <div class="hex-content">
+                    <i class="fas fa-user-secret"></i>
+                    <h3>Security</h3>
                 </div>
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <a class="hex-content">
-                    <span class="hex-content-inner">
-                        <span class="icon"><i class="fas fa-shield-alt"></i></span>
-                        <span class="title">Security</span>
-                    </span>
-                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
-                </a>
             </div>
-
-            <div class="hexagon-item">
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
+            <!-- Hex 3 -->
+            <div class="hex-container">
+                <svg class="hex-shape" viewBox="0 0 100 115" preserveAspectRatio="none">
+                    <path d="M50 0 L100 28 L100 87 L50 115 L0 87 L0 28 Z" />
+                </svg>
+                <div class="hex-content">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Apps</h3>
                 </div>
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <a class="hex-content">
-                    <span class="hex-content-inner">
-                        <span class="icon"><i class="fas fa-mobile-alt"></i></span>
-                        <span class="title">Apps</span>
-                    </span>
-                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
-                </a>
             </div>
-
-            <div class="hexagon-item">
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
+            <!-- Hex 4 -->
+            <div class="hex-container">
+                <svg class="hex-shape" viewBox="0 0 100 115" preserveAspectRatio="none">
+                    <path d="M50 0 L100 28 L100 87 L50 115 L0 87 L0 28 Z" />
+                </svg>
+                <div class="hex-content">
+                    <i class="fas fa-photo-video"></i>
+                    <h3>Media</h3>
                 </div>
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <a class="hex-content">
-                    <span class="hex-content-inner">
-                        <span class="icon"><i class="fas fa-palette"></i></span>
-                        <span class="title">Design</span>
-                    </span>
-                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
-                </a>
             </div>
-
-            <div class="hexagon-item">
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <div class="hex-item">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <a class="hex-content">
-                    <span class="hex-content-inner">
-                        <span class="icon"><i class="fas fa-video"></i></span>
-                        <span class="title">Editing</span>
-                    </span>
-                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
-                </a>
-            </div>
-
         </div>
         
-        <div class="box-container" style="margin-top: 30px;">
-            <div class="box">
-                <h3>Featured Work</h3>
-                <p>
-                    <a href="https://immigrationbaek.kr" target="_blank" style="color:#FA6862;">Korea Legal Consulting</a><br>
-                    <a href="https://hubnspokecafe.com" target="_blank" style="color:#FA6862;">Hub & Spoke Cafe (Changi)</a><br>
-                    <a href="https://edugatehglobal.com" target="_blank" style="color:#FA6862;">Edugate Global</a>
+        <!-- Featured Links -->
+        <div style="text-align: center; margin-top: 4rem;">
+             <p style="color: var(--text-secondary); margin-bottom: 2rem;">Featured Projects</p>
+             <a href="https://immigrationbaek.kr" class="btn">Korea Legal Consulting</a>
+             <a href="https://hubnspokecafe.com" class="btn">Hub & Spoke Cafe</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="heading">Get In <span>Touch</span></h2>
+        
+        <div class="contact-container fade-in">
+            <div class="contact-info">
+                <h3>Let's Connect</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                    I'm currently available for freelance work and research collaborations.
+                    Whether you have a question or just want to say hi, I'll try my best to get back to you!
                 </p>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>sanka.sankalpa1998@gmail.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>+82 10 4832 0845 (KR)</p>
+                </div>
+                
+                <div class="social-links">
+                    <a href="https://linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://wa.me/+821048320845"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <!-- Map Placeholder (Styled) -->
+            <div style="width: 100%; height: 300px; border-radius: 5px; overflow: hidden; border: 1px solid var(--accent);">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d207602.408612259!2d128.46984642933762!3d35.879564183485186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3565e1bb3ae69edd%3A0x8aa4f6b999146d66!2sYeungjin%20University%20(YJU)%2C%20Daegu!5e0!3m2!1sen!2skr!4v1702595146816" 
+                    width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy">
+                </iframe>
             </div>
         </div>
     </section>
 
-    <section class="contact" id="contact">
-        <h1 class="heading" data-aos="fade-up"> Contact <span>Me</span> </h1>
+    <footer>
+        <p>Designed & Built by <a href="#">Sankalpa Lokuliyanage</a></p>
+        <p style="margin-top: 0.5rem; font-size: 1.2rem;">&copy; 2024 All rights reserved.</p>
+    </footer>
 
-        <div class="icons-container">
-            <div class="icons" data-aos="zoom-in" data-aos-delay="100">
-                <i class="fas fa-envelope"></i>
-                <h3>Email</h3>
-                <p>sanka.sankalpa1998@gmail.com</p>
-            </div>
-
-            <div class="icons" data-aos="zoom-in" data-aos-delay="200">
-                <i class="fas fa-phone"></i>
-                <h3>Mobile</h3>
-                <p>+82 10 4832 0845 (KR)</p>
-                <p>+94 77 276 4253 (SL)</p>
-            </div>
-
-            <div class="icons" data-aos="zoom-in" data-aos-delay="300">
-                <i class="fas fa-map-marker-alt"></i>
-                <h3>Address</h3>
-                <p>Daegu, South Korea</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="footer">
-        <p>© 2024 Sankalpa Lokuliyanage. All Rights Reserved.</p>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        // Initialize Animate On Scroll
-        AOS.init({
-            duration: 1000,
-            delay: 200,
+        /* =========================================
+           1. MOBILE MENU TOGGLE
+           ========================================= */
+        let menu = document.querySelector('#menu-bars');
+        let navbar = document.querySelector('.navbar');
+
+        menu.onclick = () => {
+            menu.classList.toggle('fa-times');
+            navbar.classList.toggle('active');
+        }
+
+        window.onscroll = () => {
+            menu.classList.remove('fa-times');
+            navbar.classList.remove('active');
+        }
+
+        /* =========================================
+           2. TYPEWRITER EFFECT
+           ========================================= */
+        const words = ["Secure Software.", "Resilient Systems.", "Mobile Apps.", "Creative Designs."];
+        let i = 0;
+        let timer;
+
+        function typeWriter() {
+            const heading = document.getElementById("typewriter");
+            if (!heading) return;
+            
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    heading.innerHTML += word.shift();
+                } else {
+                    setTimeout(deleteType, 2000); // Wait before deleting
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 100); // Typing speed
+            };
+            loopTyping();
+        }
+
+        function deleteType() {
+            const heading = document.getElementById("typewriter");
+            let word = words[i].split("");
+            
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    heading.innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                    typeWriter();
+                    return false;
+                }
+                timer = setTimeout(loopDeleting, 50); // Deleting speed
+            };
+            loopDeleting();
+        }
+
+        typeWriter();
+
+        /* =========================================
+           3. INTERSECTION OBSERVER (Animations)
+           ========================================= */
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    
+                    // Animate Progress Bars only when visible
+                    if (entry.target.classList.contains('skill-bar') || entry.target.closest('.skills-section')) {
+                        const bars = entry.target.querySelectorAll('.bar-fill');
+                        bars.forEach(bar => {
+                            bar.style.width = bar.getAttribute('data-width');
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item, .fade-in, .skills-section').forEach(el => {
+            observer.observe(el);
         });
 
-        // Typewriter Effect Script
-        const textElement = document.getElementById('typewriter');
-        const phrases = ['Software Engineer', 'Cyber Security Analyst', 'Researcher', 'Web Developer'];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
 
-        function typeEffect() {
-            const currentPhrase = phrases[phraseIndex];
-            
-            if (isDeleting) {
-                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
+        /* =========================================
+           4. CANVAS PARTICLE BACKGROUND
+           ========================================= */
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        
+        let particlesArray;
+        
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
             }
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                setTimeout(typeEffect, 2000); // Wait before deleting
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                setTimeout(typeEffect, 500); // Wait before typing next
-            } else {
-                setTimeout(typeEffect, isDeleting ? 100 : 200);
+            // Draw individual particle
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = '#64ffda'; // Teal color
+                ctx.fill();
+            }
+            // Check particle position, move, draw mouse interaction
+            update() {
+                // Check if particle is still within canvas
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+                // Move particle
+                this.x += this.directionX;
+                this.y += this.directionY;
+                // Draw
+                this.draw();
             }
         }
-
-        document.addEventListener('DOMContentLoaded', typeEffect);
-
-        // Mobile Menu Toggle logic
-        let menu = document.querySelector('#menu-bars');
-        let header = document.querySelector('header');
-
-        menu.onclick = () =>{
-            menu.classList.toggle('fa-times');
-            header.classList.toggle('active');
+        
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 2) - 1; // Speed
+                let directionY = (Math.random() * 2) - 1;
+                let color = '#64ffda';
+                
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
         }
-
-        window.onscroll = () =>{
-            menu.classList.remove('fa-times');
-            header.classList.remove('active');
+        
+        // Check if particles are close enough to draw line
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = 'rgba(100, 255, 218,' + opacityValue + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
         }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+        
+        window.addEventListener('resize', function() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        });
+        
+        init();
+        animate();
+
     </script>
-</body> 
+</body>
 </html>
-
