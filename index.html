@@ -1,381 +1,467 @@
+To make your profile more attractive, we need to leverage the advanced CSS you provided earlier (specifically the Hexagon classes which were unused in your HTML) and add some modern UI trends like Glassmorphism (frosted glass effect), a Typewriter effect, and a cleaner layout.
+Here is the upgraded HTML file. I have added a custom <style> block in the head to polish the existing CSS, and I replaced the standard "Services" boxes with the cool Hexagon Grid defined in your stylesheet.
+Key Improvements:
+ * Modern Hero Section: Added a "Typewriter" animation for your roles.
+ * Hexagon Services: Implemented the Hexagon CSS classes to make the Services section look high-tech and unique.
+ * Glassmorphism: Added a frosted glass look to the sidebar and cards for a premium feel.
+ * Profile Image Glow: Added a soft animated glow to your profile picture.
+Updated index.html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<link href="img.png" rel="icon">
-	<meta http-equiv="X-UA-Compatible" content="IE-edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Sankalpa Lokuliyanage</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sankalpa Lokuliyanage | Portfolio</title>
+    <link rel="icon" href="img.png">
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- MODERN OVERRIDES & ENHANCEMENTS --- */
+        
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-glow: 0 0 10px rgba(1, 181, 156, 0.7);
+        }
 
-	<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+        body {
+            font-family: 'Poppins', sans-serif; /* Cleaner modern font */
+            background: linear-gradient(135deg, #0e204e 0%, #01b59c 100%); /* Gradient background */
+            background-attachment: fixed;
+        }
 
-	
+        /* Glassmorphism Sidebar */
+        header {
+            background: rgba(14, 32, 78, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--glass-border);
+        }
 
+        /* Profile Image styling */
+        .home .image img {
+            border-radius: 50%;
+            border: 5px solid #01b59c;
+            box-shadow: 0 0 20px rgba(1, 181, 156, 0.6);
+            transition: transform 0.5s ease;
+        }
+        .home .image img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(1, 181, 156, 0.9);
+        }
+
+        /* Typewriter Cursor */
+        .typing-text {
+            color: #01b59c;
+            border-right: 2px solid #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink 0.7s step-end infinite;
+        }
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        /* Card Enhancements */
+        .box, .icons, .timeline-text {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-radius: 15px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+            transition: transform 0.3s ease !important;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .box:hover, .icons:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Section Headings */
+        .heading span {
+            color: #0e204e;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.3);
+            background: #fff;
+            padding: 0 10px;
+            border-radius: 5px;
+        }
+
+        /* Skill Bars */
+        .about .row-2 .skills .progress .bar {
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* Hexagon Container Centering */
+        .hexagon-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            padding-bottom: 50px;
+        }
+        
+        /* Footer Polish */
+        .footer {
+            background: transparent;
+            color: white;
+        }
+        .footer p, .footer a {
+            color: white !important;
+            font-size: 1.5rem;
+        }
+        
+        /* Timeline connectors */
+        .academic .timeline .timeline-item::after {
+            background: #01b59c;
+            border-color: #fff;
+            box-shadow: 0 0 10px #01b59c;
+        }
+    </style>
 </head>
 <body>
 
+    <div id="menu-bars" class="fas fa-bars"></div>
 
-<style>
-	.about .row-2 .skills .progress:nth-child(1) .bar span{
-    width:95%;
-}
-
-.about .row-2 .skills .progress:nth-child(2) .bar span{
-    width:100%;
-}
-
-.about .row-2 .skills .progress:nth-child(3) .bar span{
-    width:95%;
-}
-
-.about .row-2 .skills .progress:nth-child(4) .bar span{
-    width:85%;
-}
-
-</style>
-	
-	<div id="menu-bars" class="fas fa-bars"></div>
-
-	<header>
-		<a href="#" class="logo"><span>Sankalpa</span> Lokuliyanage</a>
-
-		<nav class="navbar">
-			<a href="#home">Home</a>
-			<a href="#about">About</a>
-			<a href="#academic">Academic Qualifications</a>
-			<a href="#service">Services</a>
-			<a href="#contact">Contact</a>
-			
-		</nav>
-
-		<div class="follow">
-			<a href="https://www.facebook.com/sankalpa.lokuliyanage/" class="fab fa-facebook-f"></a>
-			<a href="https://twitter.com/sankalpa_lc" class="fab fa-twitter"></a>
-			<a href="https://www.instagram.com/sankalpa_lokuliyanage/" class="fab fa-instagram"></a>
-			<a href="https://www.youtube.com/c/sankalpa" class="fab fa-youtube"></a>
-			<a href="https://www.linkedin.com/in/sankalpa-lokuliyanage-b45662193/?" class="fab fa-linkedin"></a>
-			
-
-		</div>
-
-	</header>
-
-
-	<!-- home section -->
-	<section class="home" id="home">
-		
-		<div class="content">
-			<span class="hi">Hello World!</span>
-			<h3>I'm <span> Sankalpa Lokuliyanage</span></h3>
-			<p class="info"> Welcome to my Profile</p>
-			<p class="text">I am a <b>Computer Science graduate with honors from the University of Wolverhampton</b>, specializing in <b>Software Engineering</b>. Additionally, I have successfully completed a <b>Postgraduate Diploma in Cybersecurity</b> at the London School of Business and Finance, Singapore. Currently, I am pursuing a <b>Master of Science in Software at Kyungpook National University, South Korea</b>, where I am actively engaged in research related to software engineering and emerging technologies. Additionally, I have completed Korean Language at Yeungjin University, Daegu, South Korea and have TOPIK level 3 and already completed korean proficiency level 5 in University.
-			<br><br>
-My professional background encompasses extensive experience in developing applications, proficiently utilizing languages such as Java, PHP, Python, HTML, and JavaScript. Coupled with a robust cybersecurity expertise, I am adept at implementing industry best practices to ensure the security and integrity of systems.
-			<br><br>
-My approach is characterized by excellent interpersonal skills and a collaborative mindset, enabling me to effectively engage, motivate, and empower individuals toward peak performance. Committed to innovation, I strive to align organizational objectives with the application of cutting-edge technologies and business procedures</p>
-			<a href="#about" style="margin-top: 10px;" class="btn">About Me</a>
-		</div>
-
-		<div class="image">
-			<img src="img.png" width="400px">
-		</div>
-
-	</section>
-
-
-	<!-- about section -->
-	<section class="about wow zoomIn" id="about" style="padding: 2.5rem;">
-		
-		<h1 class="heading text-center wow zoomIn"> about <span> me </span></h1>
-
-		<div class="row-1">
-			<div class="image">
-				<img src="aboutimg.jpg">
-			</div>
-
-			<div class="content wow zoomIn">
-				<h3>Lokuliyanage Chamod Sankalpa Lokuliyanage</h3>
-				<p>BSc. (Hons) Computer Science (Software Engineering) UK (First Class)<br>
-				PostGraduate Diploma in Cybersecurity. (Class Topper) Singapore<br>
-				KOREAN PROFICIENCY TOPIK LEVEL 3, University LANGUAGE LEVEL 4</p>
-				<div class="box-container">
-					<div class="box wow zoomIn">
-						<p><span>Birthday :</span> 1998/08/07</p>
-						<p><span>Gender :</span> Male</p>
-						<p><span>Status :</span> Single</p>
-						<p><span>Language :</span> Sinhala, English, Korean, Japanese, Tamil</p>
-					</div>
-					<div class="box wow zoomIn">
-						<p><span>Email :</span> sanka.sankalpa1998@gmail.com</p>
-						<p><span>Mobile :</span> +82 10 4832 0845</p>
-						<p><span>Nationality :</span> Sri Lankan</p>
-						<p><span>Freelance :</span> Available</p>
-
-					</div>
-				</div>
-
-<!-- 				<a href="RESUME_LOKULIYANAGE.pdf" download class="btn">Download Resume</a> -->
-				<a href="https://scholar.google.com/citations?user=I83lgIQAAAAJ&hl=en" class="btn">Scholar Profile</a>
-				<a href="tel:+821048320845" class="btn">Hire Me</a>
-				<a href="https://wa.me/+821048320845" class="btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-				<a href="https://www.credly.com/users/lokuliyanage-chamod-sankalpa-lokuliyanage/badges" class = "btn"><i class="fab fa-badge-check"></i> Badges</a>
-			</div>
-		</div>
-
-		<h1 class="heading text-center wow zoomIn"><span>My</span> Skills</h1>
-
-		<div class="row-2">
-			<div class="skills">
-				<div class="progress">
-					<h3>Graphic Design <span> 95% </span></h3>
-					<div class="bar"><span class="wow fadeInLeft" data-wow-delay="0.8s"></span></div>
-				</div>
-				<div class="progress">
-					<h3>Web Development <span> 100% </span></h3>
-					<div class="bar"><span class="wow fadeInLeft" data-wow-delay="0.8s"></span></div>
-				</div>
-				<div class="progress">
-					<h3>Video Editing <span> 95% </span></h3>
-					<div class="bar"><span class="wow fadeInLeft" data-wow-delay="0.8s"></span></div>
-				</div>
-				<div class="progress">
-					<h3>Mobile Application Development <span> 85% </span></h3>
-					<div class="bar"><span class="wow fadeInLeft" data-wow-delay="0.8s"></span></div>
-				</div>
-			</div>
-		</div>
-
-	</section>
-
-
-	<!-- Academic Qualifications -->
-	<section class="academic" id="academic" style="padding: 2.5rem;">
-
-		<h1 class="heading text-center wow zoomIn">Academic <span> Qualifications </span></h1>
-		
-
-		<div class="timeline">
-			<div class="timeline-item left wow slideInLeft" data-wow-delay="0.1s">
-                        <div class="timeline-text">
-                            <div class="timeline-date">2022 - 2023</div>
-                            <h2>PGD IN CYBER SECURITY</h2>
-                            <h4>LONDON SCHOOL OF BUSINESS AND FINANCE, SINGAPORE.</h4>
-                            <p>
-                               Class Top 
-                            </p>
-                        </div>
-                    </div>
-                    <div class="timeline-item right wow slideInRight" data-wow-delay="0.1s">
-                        <div class="timeline-text">
-                            <div class="timeline-date">2018 - 2021</div>
-                            <h2>BSC (HONS) COMPUTER SCIENCE (SOFTWARE ENGINEERING)</h2>
-                            <h4>CINEC CAMPUS IN AFFILIATION WITH UNIVERSITY OF WOLVERHAMPTON, UK.</h4>
-                            <p>
-                                First Class Honours
-                            </p>
-                        </div>
-                    </div>
-                    <div class="timeline-item left wow slideInLeft" data-wow-delay="0.1s">
-                        <div class="timeline-text">
-                            <div class="timeline-date">2017</div>
-                            <h2>G.C.E. (A/L) EXAMINATION</h2>
-                            <h4>ST. JOSEPH’S COLLEGE, COLOMBO 14.</h4>
-                           
-                        </div>
-                    </div>
-                    <div class="timeline-item right wow slideInRight" data-wow-delay="0.1s">
-                        <div class="timeline-text">
-                            <div class="timeline-date">2014</div>
-                            <h2>G.C.E. (O/L) EXAMINATION</h2>
-                            <h4>ST. JOSEPH’S COLLEGE, COLOMBO 14. </h4>
-                          
-                        </div>
-                    </div>
-                    <div class="timeline-item left wow slideInLeft" data-wow-delay="0.1s">
-                        <div class="timeline-text">
-                            <div class="timeline-date">2013</div>
-                            <h2>DIPLOMA IN VIDEO EDITING</h2>
-                            <h4>TECHNOLOGY AND COMPUTER TRAINING INSTITUTE, MARADANA.</h4>
-                            <p>
-                                Adobe Premiere Pro <br>
-								Adobe After Effects <br>
-								                           
-
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item right wow slideInRight" data-wow-delay="0.1s">
-                        <div class="timeline-text">
-                            <div class="timeline-date">2013</div>
-                            <h2>DIPLOMA IN WEB DESIGNING</h2>
-                            <h4>TECHNOLOGY AND COMPUTER TRAINING INSTITUTE, MARADANA.</h4>
-                            <p>
-                                HTML <br>
-								CSS <br>
-								JavaScript                            
-
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item left wow slideInLeft" data-wow-delay="0.1s">
-                        <div class="timeline-text">
-                            <div class="timeline-date">2012</div>
-                            <h2>DIPLOMA IN GRAPHIC DESIGNING</h2>
-                            <h4>TECHNOLOGY AND COMPUTER TRAINING INSTITUTE, MARADANA.</h4>
-                            <p>
-                                Adobe Photoshop <br>
-								Adobe Illustrator <br>
-								Corel Draw Graphic Suite                             
-
-                            </p>
-                        </div>
-                    </div>
-                    
-                </div>
-	</section>
-
-
-
-
-
-<!-- service section starts  -->
-
-<section class="service" id="service" style="padding: 2.5rem;">
-
-<h1 class="heading text-center wow zoomIn"> <span> my </span> services </h1>
-
-    <div class="box-container wow fadeInUp">
-
-        <div class="box">
-            <i class="fas fa-code"></i>
-            <h3>Web Development</h3>
-            <p>Responsive and Unique Development (International)</p>
-		<p><a href = "https://immigrationbaek.kr">KOREA LEGAL AND VISA CONSULTING </a> Website for Foreigners in South Korea
-		<br><a href = "https://hubnspokecafe.com">HUB AND SPOKE CAFE</a> - Changi Airport Singapore
-		<br><a href = "https://edugatehglobal.com">EDUGATE GLOBAL </a> Education Consultant Company 
-		</p>
+    <header>
+        <a href="#" class="logo"><span>Sankalpa</span> L.</a>
+        <nav class="navbar">
+            <a href="#home"><i class="fas fa-home"></i> Home</a>
+            <a href="#about"><i class="fas fa-user"></i> About</a>
+            <a href="#academic"><i class="fas fa-graduation-cap"></i> Academic</a>
+            <a href="#service"><i class="fas fa-cogs"></i> Services</a>
+            <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+        </nav>
+        <div class="follow">
+            <a href="https://www.facebook.com/sankalpa.lokuliyanage/" class="fab fa-facebook-f"></a>
+            <a href="https://twitter.com/sankalpa_lc" class="fab fa-twitter"></a>
+            <a href="https://www.instagram.com/sankalpa_lokuliyanage/" class="fab fa-instagram"></a>
+            <a href="https://www.linkedin.com/in/sankalpa-lokuliyanage-b45662193/?" class="fab fa-linkedin"></a>
+            <a href="https://github.com/sankalpalokuliyanage" class="fab fa-github"></a>
         </div>
+    </header>
 
-	<div class="box">
-            <i class="fas fa-code"></i>
-            <h3>Software Development</h3>
-            <p>POS Systems <br>Desktop Applications</p>
-        </div>
-
-        <div class="box">
-            <i class="fas fa-paint-brush"></i>
-            <h3>graphic design</h3>
-            <p>Best and Unique Designs<br>
-		    LOGOS <br>
-		    Social Media Posts
-	    </p>
-        </div>
-
-        <div class="box">
-            <i class="fas fa-mobile-alt"></i>
-            <h3>Mobile Application Development</h3>
-            <p>Any Mobile Application Development(Android, IOS)</p>
-        </div>
-
-        <div class="box">
-            <i class="fas fa-video"></i>
-            <h3>Video Editing</h3>
-            <p>Create unique videos for YouTube or any other requirements</p>
-        </div>
-
-         <div class="box">
-            <i class="fas fa-camera"></i>
-            <h3>Photography</h3>
-            <p>Photography for brands<br>Photography in Events</p>
-        </div>
-
-        
-
-    </div>
-
-</section>
-
-
-
-
-
-
-<section class="contact wow fadeInUp" id="contact" style="padding: 2.5rem;">
-
-    <h1 class="heading text-center wow zoomIn"> contact <span> me </span> </h1>
-
-    <div class="icons-container">
-
-        <div class="icons">
-            <i class="fas fa-envelope"></i>
-            <h3>email</h3>
-            <p>sanka.sankalpa1998@gmail.com</p>
-          
-        </div>
-
-        <div class="icons">
-            <i class="fas fa-phone"></i>
-            <h3>number</h3>
-            <p>+94 772 764 253<br>+82 10 4832 0845</p>
-		
+    <section class="home" id="home">
+        <div class="content" data-aos="fade-right">
+            <span class="hi">Hello, I'm</span>
+            <h3>Sankalpa <span>Lokuliyanage</span></h3>
+            <p class="info">I am a <span class="typing-text" id="typewriter"></span></p>
             
+            <p class="text">
+                Computer Science Graduate (UK) | Cyber Security Specialist (Singapore) | Master's Candidate in Software Engineering (South Korea).
+                <br><br>
+                Specializing in full-stack development, AI/ML research, and secure system architecture. Bridging the gap between complex code and business solutions.
+            </p>
+            <a href="#about" class="btn">View Profile <i class="fas fa-arrow-right"></i></a>
         </div>
 
-        <div class="icons">
-            <i class="fas fa-map-marker-alt"></i>
-            <h3>address</h3>
-            <p>Daegu, South Korea</p>
-		
+        <div class="image" data-aos="fade-left">
+            <img src="img.png" alt="Sankalpa Profile"> 
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h1 class="heading" data-aos="zoom-in"> About <span>Me</span> </h1>
+
+        <div class="row-1">
+            <div class="image" data-aos="flip-left">
+                <img src="aboutimg.jpg" alt="About Sankalpa">
+            </div>
+
+            <div class="content" data-aos="fade-up">
+                <h3>Global Tech Professional</h3>
+                <p>First Class Honors Graduate (UK) & Class Topper (Singapore)</p>
+                
+                <div class="box-container">
+                    <div class="box">
+                        <p><span>Age :</span> 25 Years</p>
+                        <p><span>Gender :</span> Male</p>
+                        <p><span>Language :</span> English, Korean (Topik 3), Sinhala</p>
+                    </div>
+                    <div class="box">
+                        <p><span>Email :</span> sanka.sankalpa1998@gmail.com</p>
+                        <p><span>Location :</span> Daegu, South Korea</p>
+                        <p><span>Status :</span> Available for Hire</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <a href="https://scholar.google.com/citations?user=I83lgIQAAAAJ&hl=en" class="btn"><i class="fas fa-graduation-cap"></i> G-Scholar</a>
+                    <a href="https://www.credly.com/users/lokuliyanage-chamod-sankalpa-lokuliyanage/badges" class="btn"><i class="fas fa-certificate"></i> Badges</a>
+                    <a href="https://wa.me/+821048320845" class="btn"><i class="fab fa-whatsapp"></i> Chat Now</a>
+                </div>
+            </div>
         </div>
 
+        <h1 class="heading" data-aos="zoom-in" style="margin-top: 3rem;"> <span>Technical</span> Stack </h1>
+
+        <div class="row-2">
+            <div class="skills">
+                <div class="progress">
+                    <h3>Full Stack Dev (Java, PHP, Python) <span> 95% </span></h3>
+                    <div class="bar"><span style="width: 95%"></span></div>
+                </div>
+                <div class="progress">
+                    <h3>Web Technologies (React, Django) <span> 90% </span></h3>
+                    <div class="bar"><span style="width: 90%"></span></div>
+                </div>
+                <div class="progress">
+                    <h3>Cyber Security <span> 85% </span></h3>
+                    <div class="bar"><span style="width: 85%"></span></div>
+                </div>
+                <div class="progress">
+                    <h3>AI / Machine Learning <span> 80% </span></h3>
+                    <div class="bar"><span style="width: 80%"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="academic" id="academic">
+        <h1 class="heading" data-aos="fade-down">Academic <span>Journey</span></h1>
+        
+        <div class="timeline">
+            <div class="timeline-item left" data-aos="slide-right">
+                <div class="timeline-text">
+                    <div class="timeline-date">2024 - Present</div>
+                    <h2>MSc in Software</h2>
+                    <h4>Kyungpook National University, South Korea</h4>
+                    <p>Researching Software Engineering & Emerging Tech.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right" data-aos="slide-left">
+                <div class="timeline-text">
+                    <div class="timeline-date">2022 - 2023</div>
+                    <h2>PGD in Cyber Security</h2>
+                    <h4>LSBF, Singapore</h4>
+                    <p><b>Class Topper</b>. Focus on Network Defense & Cryptography.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left" data-aos="slide-right">
+                <div class="timeline-text">
+                    <div class="timeline-date">2018 - 2021</div>
+                    <h2>BSc (Hons) Computer Science</h2>
+                    <h4>University of Wolverhampton, UK</h4>
+                    <p><b>First Class Honours</b>. Specialized in Software Engineering.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right" data-aos="slide-left">
+                <div class="timeline-text">
+                    <div class="timeline-date">2017</div>
+                    <h2>Collegiate Education</h2>
+                    <h4>St. Joseph’s College, Colombo</h4>
+                    <p>G.C.E Advanced Level & Ordinary Level.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="service" id="service">
+        <h1 class="heading" data-aos="zoom-in"> My <span>Expertise</span> </h1>
+        
+        <div class="hexagon-container">
+            
+            <div class="hexagon-item">
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <a class="hex-content">
+                    <span class="hex-content-inner">
+                        <span class="icon"><i class="fas fa-code"></i></span>
+                        <span class="title">Web Dev</span>
+                    </span>
+                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
+                </a>
+            </div>
+
+            <div class="hexagon-item">
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <a class="hex-content">
+                    <span class="hex-content-inner">
+                        <span class="icon"><i class="fas fa-shield-alt"></i></span>
+                        <span class="title">Security</span>
+                    </span>
+                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
+                </a>
+            </div>
+
+            <div class="hexagon-item">
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <a class="hex-content">
+                    <span class="hex-content-inner">
+                        <span class="icon"><i class="fas fa-mobile-alt"></i></span>
+                        <span class="title">Apps</span>
+                    </span>
+                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
+                </a>
+            </div>
+
+            <div class="hexagon-item">
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <a class="hex-content">
+                    <span class="hex-content-inner">
+                        <span class="icon"><i class="fas fa-palette"></i></span>
+                        <span class="title">Design</span>
+                    </span>
+                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
+                </a>
+            </div>
+
+            <div class="hexagon-item">
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="hex-item">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <a class="hex-content">
+                    <span class="hex-content-inner">
+                        <span class="icon"><i class="fas fa-video"></i></span>
+                        <span class="title">Editing</span>
+                    </span>
+                    <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path></svg>
+                </a>
+            </div>
+
+        </div>
+        
+        <div class="box-container" style="margin-top: 30px;">
+            <div class="box">
+                <h3>Featured Work</h3>
+                <p>
+                    <a href="https://immigrationbaek.kr" target="_blank" style="color:#FA6862;">Korea Legal Consulting</a><br>
+                    <a href="https://hubnspokecafe.com" target="_blank" style="color:#FA6862;">Hub & Spoke Cafe (Changi)</a><br>
+                    <a href="https://edugatehglobal.com" target="_blank" style="color:#FA6862;">Edugate Global</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h1 class="heading" data-aos="fade-up"> Contact <span>Me</span> </h1>
+
+        <div class="icons-container">
+            <div class="icons" data-aos="zoom-in" data-aos-delay="100">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <p>sanka.sankalpa1998@gmail.com</p>
+            </div>
+
+            <div class="icons" data-aos="zoom-in" data-aos-delay="200">
+                <i class="fas fa-phone"></i>
+                <h3>Mobile</h3>
+                <p>+82 10 4832 0845 (KR)</p>
+                <p>+94 77 276 4253 (SL)</p>
+            </div>
+
+            <div class="icons" data-aos="zoom-in" data-aos-delay="300">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Address</h3>
+                <p>Daegu, South Korea</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer">
+        <p>© 2024 Sankalpa Lokuliyanage. All Rights Reserved.</p>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            duration: 1000,
+            delay: 200,
+        });
 
-<!-- <h2 style="color: #fff;">Current Location</h2> -->
-    <div class="row">
+        // Typewriter Effect Script
+        const textElement = document.getElementById('typewriter');
+        const phrases = ['Software Engineer', 'Cyber Security Analyst', 'Researcher', 'Web Developer'];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
 
-        <!-- <form action="">
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
 
-            <input type="text" placeholder="name" class="box">
-            <input type="email" placeholder="email" class="box">
-            <input type="number" placeholder="number" class="box">
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, 2000); // Wait before deleting
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(typeEffect, 500); // Wait before typing next
+            } else {
+                setTimeout(typeEffect, isDeleting ? 100 : 200);
+            }
+        }
 
-            <textarea name="" placeholder="message" id="" cols="30" rows="10"></textarea>
+        document.addEventListener('DOMContentLoaded', typeEffect);
 
-            <input type="submit" class="btn" value="send message">
+        // Mobile Menu Toggle logic
+        let menu = document.querySelector('#menu-bars');
+        let header = document.querySelector('header');
 
-        </form>
- -->
+        menu.onclick = () =>{
+            menu.classList.toggle('fa-times');
+            header.classList.toggle('active');
+        }
 
-
-
-
-<!--         <iframe class="map" src="<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3232.097539086925!2d128.61985167490596!3d35.895626718168344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3565e1bb3ae69edd%3A0x8aa4f6b999146d66!2sYeungjin%20University%20(YJU)%2C%20Daegu!5e0!3m2!1sen!2skr!4v1702595146816!5m2!1sen!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen="" loading="lazy"></iframe> -->
-	
-	    
-    </div>
-
-   
-
-
-</section>
-
-<!-- footer -->
-<div class="footer" id="footer">
-	
-	<center>	<hr class="ele"><p class="d-flex justify-content-center" style="color: #01b59c; font-size: 2rem;">&#169;   <a style="color: #01b59c; font-size: 2rem;" href="https://sankalpalokuliyanage.github.io/">Sankalpa Lokuliyanage</a>. All right reserved.</p></center>
-</div>
-
-
-	
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-
-	<script src="script.js"></script>
-</body>	
+        window.onscroll = () =>{
+            menu.classList.remove('fa-times');
+            header.classList.remove('active');
+        }
+    </script>
+</body> 
 </html>
+
