@@ -1,15 +1,6 @@
-let menu = document.querySelector('#menu-bars');
-let header = document.querySelector('header');
-
-menu.onclick = () => {
-	menu.classList.toggle('fa-times');
-	header.classList.toggle('active');
-}
-
-window.onscroll = () => {
-	menu.classList.remove('fa-times');
-	header.classList.remove('active');
-}
-
-
-
+const menuButton=document.querySelector('.menu-button');const navigation=document.querySelector('.nav');
+const closeMenu=()=>{menuButton.classList.remove('active');navigation.classList.remove('active');menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Open navigation')};
+menuButton.addEventListener('click',()=>{const open=navigation.classList.toggle('active');menuButton.classList.toggle('active',open);menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation':'Open navigation')});
+document.querySelectorAll('.nav a').forEach(link=>link.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+const header=document.querySelector('.site-header');const onScroll=()=>header.classList.toggle('scrolled',window.scrollY>20);onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12,rootMargin:'0px 0px -48px'});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));document.getElementById('year').textContent=new Date().getFullYear();
